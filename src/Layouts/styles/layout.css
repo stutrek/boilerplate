@@ -1,0 +1,15 @@
+.layout {
+}
+
+.header {
+	height: 36px;
+	font-family: var(--header-font-family);
+}
+
+.content {
+	position: relative;
+}
+
+.footer {
+
+}
