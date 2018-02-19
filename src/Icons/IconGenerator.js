@@ -1,12 +1,14 @@
+// @flow
+
 import React from 'react';
 import SVGInline from 'react-svg-inline';
 
 import styles from './icons.css';
 
-export default function generateIcon (src, type) {
+export default function generateIcon (src: string, type: string) {
 
-    var defaultWidth;
-    var defaultHeight;
+    var defaultWidth: string;
+    var defaultHeight: string;
     var iconType = type || '';
     var viewBoxResult = /viewBox="(\d+|\d+\.\d+),? (\d+|\d+\.\d+),? (\d+|\d+\.\d+),? (\d+|\d+\.\d+)"/i.exec(src);
     if (viewBoxResult) {
@@ -15,14 +17,25 @@ export default function generateIcon (src, type) {
         defaultHeight = numbers[3];
     }
 
-    return class Icon extends React.Component {
+    type Props = {
+        height: ?string | ?number,
+        width: ?string | ?number,
+        className: string
+    }
+
+    return class Icon extends React.Component<Props, void> {
+        static defaultProps = {
+            width: defaultWidth,
+            height: defaultHeight,
+            className: ''
+        }
+
         shouldComponentUpdate () {
             return false;
         }
 
         render () {
-            var width = (this.props.width || defaultWidth);
-            var height = (this.props.height || defaultHeight);
+            let {width, height} = this.props;
             if (typeof width === 'number') {
                 width = width + 'px';
             }
@@ -37,7 +50,7 @@ export default function generateIcon (src, type) {
                         {...this.props}
                         width={width}
                         height={height}
-                        className={`${styles.iconNoFill} ${this.props.className || ''}`.trim()}
+                        className={`${styles.iconNoFill} ${this.props.className}`.trim()}
                     />
                 );
             } else {
@@ -47,10 +60,10 @@ export default function generateIcon (src, type) {
                         {...this.props}
                         width={width}
                         height={height}
-                        className={`${styles.icon} ${this.props.className || ''}`.trim()}
+                        className={`${styles.icon} ${this.props.className}`.trim()}
                     />
                 );
             }
         }
     };
-}
+ }
